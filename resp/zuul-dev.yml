@@ -1,0 +1,29 @@
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 30
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
+  client:
+    service-url:
+      defaultZone: http://10.1.12.48:8888/eureka
+
+management:
+  security:
+    enabled: false
+
+zuul:
+  routes:
+    mini:
+      path: /mini/**
+      url: forward:/hello
+    baidu:
+      path: /baidu/**
+      url: http://www.baidu.com  
+    lp-g:
+      path: /lp-g/**
+      service-id: leapmotor-gjj
+    lp-w:
+      path: /lp-w/**
+      service-id: leapmotor-wss  
