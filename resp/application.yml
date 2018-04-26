@@ -1,4 +1,4 @@
 server:
   port: 8765
 
-from: version8.0
+from: version9.0
