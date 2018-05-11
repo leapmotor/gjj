@@ -15,4 +15,4 @@ zuul:
       service-id: leapmotor-wss  
     lp-car:
       path: /lp-car/**
-      service-id: leapmotor-carmonitor
+      service-id: service-carmanager
