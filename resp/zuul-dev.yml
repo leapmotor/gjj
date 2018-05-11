@@ -15,9 +15,6 @@ management:
 
 zuul:
   routes:
-    mini:
-      path: /mini/**
-      url: forward:/hello
     baidu:
       path: /baidu/**
       url: http://www.baidu.com  
@@ -26,4 +23,7 @@ zuul:
       service-id: leapmotor-gjj
     lp-w:
       path: /lp-w/**
-      service-id: leapmotor-wss  
+      service-id: leapmotor-wss 
+	lp-car:
+      path: /lp-car/**
+      service-id: leapmotor-carmonitor
