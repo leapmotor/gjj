@@ -13,9 +13,6 @@ zuul:
     lp-w:
       path: /lp-w/**
       service-id: leapmotor-wss 
-    lp-car:
-      path: /lp-car/**
-      service-id: leapmotor-carmonitor
     lp-car1:
       path: /lp-car1/**
       service-id: leapmotor-charge
