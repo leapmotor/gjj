@@ -16,3 +16,6 @@ zuul:
     lp-car1:
       path: /lp-car1/**
       service-id: leapmotor-charge
+    lp-car:
+      path: /lp-car/**
+      service-id: leapmotor-carmonitor
