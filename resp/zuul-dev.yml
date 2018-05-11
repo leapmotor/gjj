@@ -1,3 +1,5 @@
+server:
+  port: 8892
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
@@ -24,6 +26,6 @@ zuul:
     lp-w:
       path: /lp-w/**
       service-id: leapmotor-wss 
-	lp-car:
+    lp-car:
       path: /lp-car/**
       service-id: leapmotor-carmonitor
