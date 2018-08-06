@@ -1,3 +1,7 @@
+mongoTemplate:springboot中自动配置对象
+projectName:mongodb的集合名
+name:GridFS存储时用的filename
+
 DB db = mongoTemplate.getDb();
 // 获取fs的根节点
 GridFS gridFS = new GridFS(db, projectName);
