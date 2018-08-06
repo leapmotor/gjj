@@ -1,0 +1,29 @@
+DB db = mongoTemplate.getDb();
+// 获取fs的根节点
+GridFS gridFS = new GridFS(db, projectName);
+GridFSDBFile dbfile = gridFS.findOne(name);
+in = dbfile.getInputStream();
+int len = (int) dbfile.getLength();
+
+此时想获取byte[] 我们会这样做
+byte[] bodys = new byte[len];
+in.read(bodys,0,len);
+in.close();
+return Base64.encodeBase64String(bodys);
+
+按照正常情况,这种写法就可以正确返回base64字符串了,前端正常解析就行
+但是因为mongodb内部存取文件数据是以分片的形式存储的,所以读取的时候每次最大读取长度就是它的chunkSize,一般为261120 bit
+所以当文件超过了这个界限,还是这样读取的话,会造成数据丢失
+
+
+所以现在我们需要多次读流,也可以说分片读流
+byte[] bodys = new byte[len];
+int index = 0;
+do {
+  index += in.read(bodys, index, len);
+} while (index != len);
+in.close();
+return Base64.encodeBase64String(bodys);
+
+
+
