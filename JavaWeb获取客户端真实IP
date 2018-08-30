@@ -1,0 +1,62 @@
+最近做了一个小过滤,需要添加ip白名单,那么就得要获取客户端请求的ip了，那么对于冲动的程序员来说(我就是这种),这么low的东西交给了我,随便做啊,
+这还不简单不就一个request.getRemoteAddr()的事情,的确这个方法对于最最基本的请求来说就ok了,即随访问我,我就获取它的请求ip.
+但是事情没有这么简单,xx告诉你,这项目外围部了个nginx做为反向代理,行,这也没有问题,request.getHeader("X-Real-IP"),只要在nginx配了这个就解决了
+到这里觉得事情就解决了吧,当然对于我们项目只走一层ngnix代理的话,那么这个已经够了
+但是问题有来了,走了多级代理呢,这时候懵逼了,弱弱的我百度了一下,终于找到了,使用request.getHeader("x-forwarded-for")
+这里有个问题(我同事说,这些配置在nginx不需要配置,我网上找的写法都是要配的,那估计配置好了肯定是正确的,不配自己要尝试下吧)
+由此得出一个结论：
+客户端访问经过转发，IP将会追加在其后并以逗号隔开。最终准确的客户端信息为：
+x-forwarded-for 不为空，则为逗号前第一个IP
+X-Real-IP不为空，则为该IP
+否则为getRemoteAddr()
+
+请求访问三种方式:
+1. 浏览器 ----------------> 服务器   getRemoteAddr()获取真实地址
+
+2. 浏览器 ----------------> 代理(nginx,squid,haproxy) --------------> 服务器 配置X-Real-IP或者x-forwarded-for 获取
+
+3. 浏览器 ----------------> 多层代理 ---------------> 服务器 配置X-Real-IP或者x-forwarded-for(逗号前第一个IP ) 获取
+
+代码：
+ /** 
+     * 获取用户真实IP地址，不使用request.getRemoteAddr()的原因是有可能用户使用了代理软件方式避免真实IP地址, 
+     * 可是，如果通过了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP值 
+     *  
+     * @return ip
+     */
+    private String getIpAddr(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for"); 
+        System.out.println("x-forwarded-for ip: " + ip);
+        if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {  
+            // 多次反向代理后会有多个ip值，第一个ip才是真实ip
+            if( ip.indexOf(",")!=-1 ){
+                ip = ip.split(",")[0];
+            }
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("Proxy-Client-IP");  
+            System.out.println("Proxy-Client-IP ip: " + ip);
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("WL-Proxy-Client-IP");  
+            System.out.println("WL-Proxy-Client-IP ip: " + ip);
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("HTTP_CLIENT_IP");  
+            System.out.println("HTTP_CLIENT_IP ip: " + ip);
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+            System.out.println("HTTP_X_FORWARDED_FOR ip: " + ip);
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("X-Real-IP");  
+            System.out.println("X-Real-IP ip: " + ip);
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getRemoteAddr();  
+            System.out.println("getRemoteAddr ip: " + ip);
+        } 
+        System.out.println("获取客户端ip: " + ip);
+        return ip;  
+    }
