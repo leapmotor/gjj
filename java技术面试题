@@ -1,1 +1,116 @@
 地址:https://blog.csdn.net/einstein10147/article/details/77040110
+
+1.面向对象和面向过程的区别
+
+面向对象关注的是对象(即人能干嘛)  人.吃饭   人.洗澡
+而面向过程关注的是过程(即人做事的过程) 吃饭(拿起筷子,挖一口饭到嘴里,嚼起来)     洗澡(涂上沐浴露,用手擦起来)
+面向对象与面向过程而言,既是一个思想上,考虑方式的改变。本质还是不变的。改走的流程还是得执行
+面向对象有点把面向过程封装的意思，易复用，易扩展
+面向过程直接关注流程,就性能而言比面向对象这个高效
+
+
+2.Java的四个基本特性（抽象、封装、继承，多态）
+
+抽象:abstract  把同类的行为但是具体执行结果不一样的行为抽取定义起来
+
+封装:属性private 提供 get set 方法 
+
+继承: son extends father ,son会继承father的属性和方法
+
+多态: 重写，重载  overload  override  
+
+3.重载和重写的区别
+
+重载是在一个类里面的
+代码：
+public int getValue(int a){ return a; }
+public int getValue(int a,int b){ return a*b; }
+
+注意点：
+  1.重载参数个数或者参数参数类型必须有个不同,不然其他修饰,返回值再怎么不一样也会报错
+  2. long ...a 可变参数  和  long[] arr 数组 是一个意思
+  
+  
+重写是在父子类，继承,实现接口方式的
+father:
+  public int getValue(){ return 2; }
+
+son extends father
+  public int getValue(){ return 22; }
+
+注意点：
+  1.子类重写的方法返回类型要么跟父类返回类型一样,要么返回类型是父类方法返回类型的子类
+  2.父类没有抛异常,子类不能抛异常  即子类抛异常只能和父类抛的异常一样或者异常的子类
+  3.父类的方法被final了,子类不能重写
+  4.父类的方法被static修饰,子类也必须写static，但是这样一来，运行的结果和普通方法的结果有区别
+  5.父类的方法同步，子类重写的方法不一定需要同步
+  
+  
+4.构造器Constructor是否可被override
+
+构造器(构造方法)不能被重写,子类继承父类并没有继承构造器,只是在本类构造器中默认调用了构造器
+构造器没有返回类型(注意跟void区别,void是一种没有返回值的返回类型)
+
+
+5.访问控制符public,protected,private,以及默认的区别
+
+private只有在本类中才能访问；
+默认不写在同包内能访问。
+protected在同包内的类及包外的子类能访问；
+public在任何地方都能访问；
+
+6.是否可以继承String类
+
+String被final修饰是不可以被继承了,String是不可变长的字符串,即改变了字符串的值，这个对象也改变了。如int数组其中一个数值改变,对象是没有改变的
+final修饰类，该类不能被继承。final修饰方法，该方法不能被修改。final修饰属性，该属性不可变。
+final和abstract是永远不可能共用的
+
+
+7.String和StringBuffer、StringBuilder的区别
+
+可变性：
+String类中使用字符数组保存字符串，private final char value[]，所以string对象是不可变的。
+StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，
+char[] value，这两种对象都是可变的。
+线程安全性：
+String中的对象是不可变的，也就可以理解为常量，线程安全。
+AbstractStringBuilder是StringBuilder与StringBuffer的公共父类，定义了一些字符串的基本操作，如expandCapacity、append、insert、indexOf等公共方法。StringBuffer对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。StringBuilder并没有对方法进行加同步锁，所以是非线程安全的。
+性能：
+每次对String 类型进行改变的时候，都会生成一个新的String 对象，然后将指针指向新的String 对象。
+StringBuffer每次都会对StringBuffer 对象本身进行操作，而不是生成新的对象并改变对象引用。
+相同情况下使用StirngBuilder 相比使用StringBuffer 仅能获得10%~15% 左右的性能提升，但却要冒多线程不安全的风险。
+所以总结选型,如果有大量的字符串操作,使用StringBuffer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
