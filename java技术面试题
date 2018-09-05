@@ -81,6 +81,25 @@ StringBuffer每次都会对StringBuffer 对象本身进行操作，而不是生�
 相同情况下使用StirngBuilder 相比使用StringBuffer 仅能获得10%~15% 左右的性能提升，但却要冒多线程不安全的风险。
 所以总结选型,如果有大量的字符串操作,使用StringBuffer
 
+8.hashCode和equals方法的关系
+
+hashCode 是经过系统一些列计算得到的一个值,一般可以表示对象的唯一值了，hashCode方法我们可以重写,按照自己的规则
+equals方法是比较对象是否相等的，基类Object中的equalse比较是两个对象在内存中的物理地址是否相等
+一般我们都会重写hashCode和equals方法
+最后总结:equals相等，hashcode必相等；hashcode相等，equals可能不相等
+
+9.抽象类和接口的区别
+抽象 abstract  接口 interface
+
+抽象类一般被继承extends 抽象父类与派生类是 is-a 的关系 ，只能单继承抽象类
+接口都是被实现implement 接口和实现类是 like-a 的关系 ，可以多实现接口
+
+共同点：
+ 都拥有抽象方法
+ 都可以定义常量
+ 都可以定义成员变量(抽象类的成员变量可以被4种权限修饰,接口中的成员变量只能被public和默认的修饰)
+ 都可以有普通已经实现的方法(接口jdk1.8以后才支持,而且得加default修饰)
+
 
 
 
