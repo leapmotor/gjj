@@ -1,0 +1,6 @@
+
+Java保存到mongodb当前时间，使用RoboMongo查看数据显示时间比当前时间少8个小时，这是客户端的问题。
+
+MongoDB中的Date类型数据只保存绝对时间值，不保存时区信息，因此“显示的时间”取决于MongoDB的客户端设置。
+
+RoboMongo可以通过"Options" - "Display Dates in..." - "Local Timezone"来设置显示本地时间。
