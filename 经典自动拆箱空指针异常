@@ -1,0 +1,3 @@
+String abc = null;
+  Boolean b = "1".equals(abc)?true:"2".equals(abc)?false:null;
+  System.out.println("b:"+b);
